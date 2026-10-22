@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": "2026-10-22T08:30:00Z",
+  "last_updated": "2026-10-22T03:09:11.964Z",
   "repositories": [
     {
       "id": "uma-usagi",
@@ -37,7 +37,7 @@
       "description": "Official community repo for Mihon / Tachiyomi APK extensions",
       "author": "Keiyoushi Team",
       "icon_url": "https://avatars.githubusercontent.com/u/113362897?s=200",
-      "version": "1.0.0",
+      "version": "b00de1d",
       "version_code": 100,
       "index_url": "https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json",
       "sources_count": 500,
