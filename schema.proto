@@ -16,6 +16,7 @@ message Repository {
   int32 sources_count = 11;
   int64 size_bytes = 12;
   string min_app_version = 13;
+  string github = 14;
 }
 
 message RepositoryIndex {

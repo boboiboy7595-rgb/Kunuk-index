@@ -8,6 +8,19 @@ on:
   schedule:
     - cron: '0 */6 * * *'
   workflow_dispatch:
+    inputs:
+      repo_url:
+        description: 'GitHub Repo URL or owner/repo (e.g. https://github.com/InvalidDavid/UMA)'
+        required: false
+        type: string
+      repo_type:
+        description: 'Repository Type'
+        required: true
+        type: choice
+        options:
+          - usagi
+          - mihon
+        default: usagi
 
 permissions:
   contents: write
@@ -30,6 +43,8 @@ jobs:
       - name: Check and Update Upstream Versions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ADD_REPO_URL: ${{ inputs.repo_url }}
+          ADD_REPO_TYPE: ${{ inputs.repo_type }}
         run: node scripts/update-index.js
 
       - name: Commit and Push if Changed
