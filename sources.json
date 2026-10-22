@@ -1,0 +1,24 @@
+[
+  {
+    "github": "InvalidDavid/UMA",
+    "name": "UMA Extension Repo",
+    "type": "usagi"
+  },
+  {
+    "github": "dragonx943/manga-repo",
+    "name": "Usagi Manga Repo",
+    "type": "usagi"
+  },
+  {
+    "github": "keiyoushi/extensions",
+    "name": "Keiyoushi Extensions",
+    "type": "mihon"
+  },
+  {
+    "github": "skepsun/kototoro-parsers",
+    "name": "Kototoro Parsers (Auto-Build)",
+    "type": "usagi",
+    "release_repo": "boboiboy7595-rgb/Kunuk-index",
+    "release_tag_prefix": "kototoro-"
+  }
+]

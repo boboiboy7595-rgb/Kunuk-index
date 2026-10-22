@@ -1,6 +1,6 @@
-…
-	uma-usagiUMA Extension Repousagi"4UMA Plugin for the Usagi App or other Kotatsu Forks.*InvalidDavid:08f814frInvalidDavid/UMAž
-manga-repo-usagiUsagi Manga Repousagi"EA plugin that contains some sources for Usagi, compatible with Tsuki.*
-dragonx943:97b4718rdragonx943/manga-repot
-keiyoushi-mihonKeiyoushi Extensionsmihon"+Extension repository for Mihon and variants*Keiyoushi Team:b00de1d²
-kototoro-parsersKototoro Parsers (Auto-Build)usagi"gManga parsers library for Kotlin/JVM and Android compiled directly from skepsun/kototoro-parsers master*skepsun:latest
+Œ
+invaliddavid-umaUMA Extension Repousagi"4UMA Plugin for the Usagi App or other Kotatsu Forks.*InvalidDavid:08f814frInvalidDavid/UMA£
+dragonx943-manga-repoUsagi Manga Repousagi"EA plugin that contains some sources for Usagi, compatible with Tsuki.*
+dragonx943:97b4718rdragonx943/manga-repoŠ
+keiyoushi-extensionsKeiyoushi Extensionsmihon"+Extension repository for Mihon and variants*	keiyoushi:b00de1drkeiyoushi/extensionsœ
+skepsun-kototoro-parsersKototoro Parsers (Auto-Build)usagi"0Manga parsers library for Kotlin/JVM and Android*skepsun:1.0.0rskepsun/kototoro-parsers
