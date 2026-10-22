@@ -16,6 +16,29 @@ function showToast(msg) {
   }, 2500);
 }
 
+// Client-side loader using protobuf.js to fetch and decode index.pb
+async function loadProtobufIndex() {
+  const root = await protobuf.load('schema.proto');
+  const RepositoryIndex = root.lookupType('kunuk.RepositoryIndex');
+
+  const response = await fetch('index.pb');
+  if (!response.ok) {
+    throw new Error(`Failed to load index.pb: ${response.status}`);
+  }
+  const arrayBuffer = await response.arrayBuffer();
+  const uint8Array = new Uint8Array(arrayBuffer);
+  const message = RepositoryIndex.decode(uint8Array);
+  return RepositoryIndex.toObject(message, {
+    longs: Number,
+    enums: String,
+    bytes: String,
+    defaults: true,
+    arrays: true,
+    objects: true,
+    oneofs: true
+  });
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
   const grid = document.getElementById('apps-grid');
   const countAll = document.getElementById('count-all');
@@ -32,24 +55,31 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Copy Repo URL
   btnCopyRepo.addEventListener('click', () => {
     navigator.clipboard.writeText(repoInput.value).then(() => {
-      showToast('Repository URL copied!');
+      showToast('Protobuf index URL (.pb) copied!');
     });
   });
 
-  // Load index.json
+  // Load binary index.pb
   try {
-    const res = await fetch('index.json');
-    const data = await res.json();
+    const data = await loadProtobufIndex();
     repositories = data.repositories || [];
     countAll.textContent = repositories.length;
 
     if (data.last_updated) {
       const date = new Date(data.last_updated);
-      syncStatus.textContent = `Synced: ${date.toLocaleDateString()} (${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`;
+      syncStatus.textContent = `Protobuf Decoded: ${date.toLocaleDateString()} (${date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })})`;
     }
   } catch (e) {
-    grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #f87171;">Failed to load index.json. Ensure the file is present.</p>`;
-    return;
+    console.warn('Protobuf load failed, trying JSON fallback:', e);
+    try {
+      const res = await fetch('index.json');
+      const data = await res.json();
+      repositories = data.repositories || [];
+      countAll.textContent = repositories.length;
+    } catch (err) {
+      grid.innerHTML = `<p style="grid-column: 1/-1; text-align: center; color: #f87171;">Failed to load index.pb. Ensure schema.proto and index.pb are present.</p>`;
+      return;
+    }
   }
 
   function render() {
@@ -80,7 +110,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       const downloadText = isMihon ? 'Copy Index URL' : 'Download JAR';
       const isJar = Boolean(repo.jar_url);
 
-      const iconSrc = repo.icon_url || 'https://raw.githubusercontent.com/boboiboy7595-rgb/Kunuk-index/main/icons/default.png';
+      const iconSrc = repo.icon_url || 'https://avatars.githubusercontent.com/u/113362897?s=200';
 
       return `
         <article class="app-card">
@@ -135,7 +165,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       `;
     }).join('');
 
-    // Attach listeners to dynamically generated buttons
     document.querySelectorAll('.btn-copy-index').forEach(btn => {
       btn.addEventListener('click', (e) => {
         const url = e.currentTarget.getAttribute('data-url');
@@ -155,7 +184,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   }
 
-  // Filter click handlers
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
@@ -165,7 +193,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
   });
 
-  // Search input handler
   searchInput.addEventListener('input', (e) => {
     searchQuery = e.target.value;
     render();

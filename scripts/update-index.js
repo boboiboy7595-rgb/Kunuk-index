@@ -1,7 +1,10 @@
 const fs = require('fs');
 const path = require('path');
+const protobuf = require('protobufjs');
 
 const INDEX_FILE = path.join(__dirname, '..', 'index.json');
+const PROTO_FILE = path.join(__dirname, '..', 'schema.proto');
+const PB_FILE = path.join(__dirname, '..', 'index.pb');
 
 async function fetchJSON(url) {
   const headers = { 'User-Agent': 'Kunuk-Index-Updater' };
@@ -13,6 +16,17 @@ async function fetchJSON(url) {
     throw new Error(`Failed to fetch ${url}: ${res.status} ${res.statusText}`);
   }
   return await res.json();
+}
+
+async function compileProtobuf(jsonData) {
+  const root = await protobuf.load(PROTO_FILE);
+  const RepositoryIndex = root.lookupType('kunuk.RepositoryIndex');
+  const errMsg = RepositoryIndex.verify(jsonData);
+  if (errMsg) throw Error(errMsg);
+  const message = RepositoryIndex.create(jsonData);
+  const buffer = RepositoryIndex.encode(message).finish();
+  fs.writeFileSync(PB_FILE, buffer);
+  console.log(`Generated index.pb (${buffer.length} bytes)`);
 }
 
 async function updateIndex() {
@@ -42,7 +56,6 @@ async function updateIndex() {
           console.log(`Updated manga-repo-usagi to ${release.tag_name}`);
         }
       } else if (repo.id === 'keiyoushi-mihon') {
-        // Keiyoushi serves its index directly on branch 'repo'
         const branch = await fetchJSON('https://api.github.com/repos/keiyoushi/extensions/branches/repo');
         const latestCommit = branch.commit.sha.substring(0, 7);
         if (repo.version !== latestCommit) {
@@ -56,12 +69,15 @@ async function updateIndex() {
     }
   }
 
-  if (updated) {
+  // Always keep index.pb compiled and in sync
+  if (updated || !fs.existsSync(PB_FILE)) {
     data.last_updated = new Date().toISOString();
     fs.writeFileSync(INDEX_FILE, JSON.stringify(data, null, 2) + '\n');
-    console.log('index.json successfully updated.');
+    await compileProtobuf(data);
+    console.log('index.json & index.pb successfully updated.');
   } else {
-    console.log('All repositories are already up to date.');
+    await compileProtobuf(data);
+    console.log('Verified index.pb is up to date.');
   }
 }
 

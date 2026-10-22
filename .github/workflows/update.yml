@@ -2,9 +2,8 @@ name: Update Index Automatically
 
 on:
   schedule:
-    # Runs every 6 hours (at minute 0)
     - cron: '0 */6 * * *'
-  workflow_dispatch: # Allows you to manually trigger it from GitHub UI anytime
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -21,6 +20,9 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Install Dependencies
+        run: npm install protobufjs
+
       - name: Check and Update Upstream Versions
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -30,5 +32,5 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add index.json
-          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update index.json to latest upstream versions" && git push)
+          git add index.json index.pb
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update index.json and index.pb" && git push)

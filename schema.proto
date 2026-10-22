@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package kunuk;
+
+message Repository {
+  string id = 1;
+  string name = 2;
+  string type = 3;
+  string description = 4;
+  string author = 5;
+  string icon_url = 6;
+  string version = 7;
+  int32 version_code = 8;
+  string jar_url = 9;
+  string index_url = 10;
+  int32 sources_count = 11;
+  int64 size_bytes = 12;
+  string min_app_version = 13;
+}
+
+message RepositoryIndex {
+  int32 version = 1;
+  string last_updated = 2;
+  repeated Repository repositories = 3;
+}
