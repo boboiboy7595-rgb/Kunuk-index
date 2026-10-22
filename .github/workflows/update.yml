@@ -1,6 +1,10 @@
 name: Update Index Automatically
 
 on:
+  push:
+    paths:
+      - 'index.json'
+      - 'schema.proto'
   schedule:
     - cron: '0 */6 * * *'
   workflow_dispatch:
