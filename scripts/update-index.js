@@ -36,8 +36,15 @@ async function updateIndex() {
   for (const repo of data.repositories) {
     try {
       if (repo.id === 'uma-usagi') {
+        const repoInfo = await fetchJSON('https://api.github.com/repos/InvalidDavid/UMA');
         const release = await fetchJSON('https://api.github.com/repos/InvalidDavid/UMA/releases/latest');
         const asset = release.assets.find(a => a.name.endsWith('.jar')) || release.assets[0];
+
+        // Dynamic metadata extraction
+        if (repoInfo.description && repo.description !== repoInfo.description) {
+          repo.description = repoInfo.description;
+          updated = true;
+        }
         if (asset && (repo.version !== release.tag_name || repo.jar_url !== asset.browser_download_url)) {
           repo.version = release.tag_name;
           repo.jar_url = asset.browser_download_url;
@@ -45,9 +52,17 @@ async function updateIndex() {
           updated = true;
           console.log(`Updated UMA to ${release.tag_name}`);
         }
+
       } else if (repo.id === 'manga-repo-usagi') {
+        const repoInfo = await fetchJSON('https://api.github.com/repos/dragonx943/manga-repo');
         const release = await fetchJSON('https://api.github.com/repos/dragonx943/manga-repo/releases/latest');
         const asset = release.assets.find(a => a.name.endsWith('.jar')) || release.assets[0];
+
+        // Dynamic metadata extraction
+        if (repoInfo.description && repo.description !== repoInfo.description) {
+          repo.description = repoInfo.description;
+          updated = true;
+        }
         if (asset && (repo.version !== release.tag_name || repo.jar_url !== asset.browser_download_url)) {
           repo.version = release.tag_name;
           repo.jar_url = asset.browser_download_url;
@@ -55,13 +70,35 @@ async function updateIndex() {
           updated = true;
           console.log(`Updated manga-repo-usagi to ${release.tag_name}`);
         }
+
       } else if (repo.id === 'keiyoushi-mihon') {
-        const branch = await fetchJSON('https://api.github.com/repos/keiyoushi/extensions/branches/repo');
-        const latestCommit = branch.commit.sha.substring(0, 7);
-        if (repo.version !== latestCommit) {
-          repo.version = latestCommit;
+        // 1. Dynamic Repo info & description from GitHub
+        const repoInfo = await fetchJSON('https://api.github.com/repos/keiyoushi/extensions');
+        if (repoInfo.description && repo.description !== repoInfo.description) {
+          repo.description = repoInfo.description;
           updated = true;
-          console.log(`Updated keiyoushi to commit ${latestCommit}`);
+        }
+
+        // 2. Dynamic latest commit version & date from 'repo' branch
+        const commitData = await fetchJSON('https://api.github.com/repos/keiyoushi/extensions/commits/repo');
+        const latestSha = commitData.sha.substring(0, 7);
+        if (repo.version !== latestSha) {
+          repo.version = latestSha;
+          updated = true;
+          console.log(`Updated Keiyoushi version to commit ${latestSha}`);
+        }
+
+        // 3. Dynamic sources count from Keiyoushi release assets
+        try {
+          const assets = await fetchJSON('https://raw.githubusercontent.com/keiyoushi/extensions/repo/release-assets.json');
+          const extCount = Object.keys(assets).length;
+          if (extCount && repo.sources_count !== extCount) {
+            repo.sources_count = extCount;
+            updated = true;
+            console.log(`Updated Keiyoushi sources count to ${extCount}`);
+          }
+        } catch (e) {
+          console.warn('Could not fetch Keiyoushi release-assets.json:', e.message);
         }
       }
     } catch (err) {
@@ -69,7 +106,6 @@ async function updateIndex() {
     }
   }
 
-  // Always keep index.pb compiled and in sync
   if (updated || !fs.existsSync(PB_FILE)) {
     data.last_updated = new Date().toISOString();
     fs.writeFileSync(INDEX_FILE, JSON.stringify(data, null, 2) + '\n');

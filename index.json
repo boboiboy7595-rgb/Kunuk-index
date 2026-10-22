@@ -1,12 +1,12 @@
 {
   "version": 1,
-  "last_updated": "2026-10-22T03:09:11.964Z",
+  "last_updated": "2026-10-22T03:46:45.060Z",
   "repositories": [
     {
       "id": "uma-usagi",
       "name": "UMA Extension Repo",
       "type": "usagi",
-      "description": "Multi-source bundled extension pack with 150+ manga parsers",
+      "description": "UMA Plugin for the Usagi App or other Kotatsu Forks.",
       "author": "InvalidDavid",
       "icon_url": "https://avatars.githubusercontent.com/u/118831950?v=4",
       "version": "08f814f",
@@ -20,7 +20,7 @@
       "id": "manga-repo-usagi",
       "name": "Usagi Manga Repo",
       "type": "usagi",
-      "description": "Official core Usagi extensions",
+      "description": "A plugin that contains some sources for Usagi, compatible with Tsuki.",
       "author": "dragonx943",
       "icon_url": "https://avatars.githubusercontent.com/u/131387159?v=4",
       "version": "97b4718",
@@ -34,13 +34,13 @@
       "id": "keiyoushi-mihon",
       "name": "Keiyoushi Extensions",
       "type": "mihon",
-      "description": "Official community repo for Mihon / Tachiyomi APK extensions",
+      "description": "Extension repository for Mihon and variants",
       "author": "Keiyoushi Team",
       "icon_url": "https://avatars.githubusercontent.com/u/113362897?s=200",
       "version": "b00de1d",
       "version_code": 100,
       "index_url": "https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json",
-      "sources_count": 500,
+      "sources_count": 1444,
       "size_bytes": 0,
       "min_app_version": "1.0.0"
     }
