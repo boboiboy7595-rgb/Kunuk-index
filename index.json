@@ -43,6 +43,20 @@
       "sources_count": 1444,
       "size_bytes": 0,
       "min_app_version": "1.0.0"
+    },
+    {
+      "id": "kototoro-parsers",
+      "name": "Kototoro Parsers (Auto-Build)",
+      "type": "usagi",
+      "description": "Manga parsers library for Kotlin/JVM and Android compiled directly from skepsun/kototoro-parsers master",
+      "author": "skepsun",
+      "icon_url": "https://avatars.githubusercontent.com/u/27009335?v=4",
+      "version": "latest",
+      "version_code": 100,
+      "jar_url": "https://github.com/boboiboy7595-rgb/Kunuk-index/releases",
+      "sources_count": 60,
+      "size_bytes": 350000,
+      "min_app_version": "1.0.0"
     }
   ]
 }

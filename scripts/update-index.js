@@ -100,6 +100,24 @@ async function updateIndex() {
         } catch (e) {
           console.warn('Could not fetch Keiyoushi release-assets.json:', e.message);
         }
+
+      } else if (repo.id === 'kototoro-parsers') {
+        try {
+          const releases = await fetchJSON('https://api.github.com/repos/boboiboy7595-rgb/Kunuk-index/releases');
+          const kototoroRelease = releases.find(r => r.tag_name && r.tag_name.startsWith('kototoro-'));
+          if (kototoroRelease) {
+            const asset = kototoroRelease.assets.find(a => a.name.endsWith('.jar'));
+            if (asset && (repo.version !== kototoroRelease.tag_name || repo.jar_url !== asset.browser_download_url)) {
+              repo.version = kototoroRelease.tag_name.replace('kototoro-', '');
+              repo.jar_url = asset.browser_download_url;
+              repo.size_bytes = asset.size;
+              updated = true;
+              console.log(`Updated kototoro-parsers to ${kototoroRelease.tag_name}`);
+            }
+          }
+        } catch (e) {
+          console.warn('No Kototoro release found in Kunuk-index yet:', e.message);
+        }
       }
     } catch (err) {
       console.error(`Error updating ${repo.id}:`, err.message);

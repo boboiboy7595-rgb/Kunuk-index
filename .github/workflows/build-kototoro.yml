@@ -1,0 +1,105 @@
+name: Build Kototoro Parsers JAR
+
+on:
+  schedule:
+    # Check upstream kototoro-parsers every 12 hours
+    - cron: '0 */12 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Kunuk-Index
+        uses: actions/checkout@v4
+
+      - name: Check Upstream Latest Commit
+        id: check-commit
+        run: |
+          UPSTREAM_SHA=$(curl -s https://api.github.com/repos/skepsun/kototoro-parsers/commits/master | jq -r .sha)
+          SHORT_SHA=$(echo $UPSTREAM_SHA | cut -c1-7)
+          echo "upstream_sha=$UPSTREAM_SHA" >> $GITHUB_OUTPUT
+          echo "short_sha=$SHORT_SHA" >> $GITHUB_OUTPUT
+          
+          # Check if this release tag already exists in our repo
+          EXISTS=$(curl -s -o /dev/null -w "%{http_code}" https://api.github.com/repos/${{ github.repository }}/releases/tags/kototoro-$SHORT_SHA)
+          if [ "$EXISTS" = "200" ]; then
+            echo "Already built for commit $SHORT_SHA. Skipping build."
+            echo "should_build=false" >> $GITHUB_OUTPUT
+          else
+            echo "New commit found: $SHORT_SHA. Starting build."
+            echo "should_build=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Setup Java JDK
+        if: steps.check-commit.outputs.should_build == 'true'
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Setup Android SDK Build-Tools
+        if: steps.check-commit.outputs.should_build == 'true'
+        uses: android-actions/setup-android@v3
+
+      - name: Install Android Platforms & Build Tools
+        if: steps.check-commit.outputs.should_build == 'true'
+        run: |
+          yes | sdkmanager --licenses || true
+          sdkmanager "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Clone Upstream kototoro-parsers
+        if: steps.check-commit.outputs.should_build == 'true'
+        run: |
+          git clone https://github.com/skepsun/kototoro-parsers.git upstream-kototoro
+
+      - name: Compile and Dex Kototoro JAR
+        if: steps.check-commit.outputs.should_build == 'true'
+        working-directory: upstream-kototoro
+        run: |
+          chmod +x gradlew
+          ./gradlew jar --no-daemon
+
+          BUILD_TOOLS_DIR="$ANDROID_HOME/build-tools/34.0.0"
+          D8_PATH="$BUILD_TOOLS_DIR/d8"
+          ANDROID_JAR="$ANDROID_HOME/platforms/android-34/android.jar"
+
+          cd build/libs
+          RAW_JAR=$(ls kototoro-parsers-*.jar | head -n 1)
+          echo "Processing $RAW_JAR with d8..."
+
+          $D8_PATH --release --lib $ANDROID_JAR --output . $RAW_JAR
+          jar cvf kototoro-parsers-plugin.jar classes.dex
+          
+          echo "Final build verified:"
+          ls -la kototoro-parsers-plugin.jar
+          cp kototoro-parsers-plugin.jar ../../kototoro-parsers-plugin.jar
+
+      - name: Create GitHub Release with Compiled JAR
+        if: steps.check-commit.outputs.should_build == 'true'
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: kototoro-${{ steps.check-commit.outputs.short_sha }}
+          name: Kototoro Parsers Plugin (${{ steps.check-commit.outputs.short_sha }})
+          body: |
+            Automated build of [skepsun/kototoro-parsers](https://github.com/skepsun/kototoro-parsers) compiled for Android / Kototoro / Usagi.
+            
+            - **Upstream Commit**: `skepsun/kototoro-parsers@${{ steps.check-commit.outputs.upstream_sha }}`
+            - **Built by**: Kunuk-index CI
+          files: kototoro-parsers-plugin.jar
+          draft: false
+          prerelease: false
+
+      - name: Trigger index update
+        if: steps.check-commit.outputs.should_build == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          npm install protobufjs
+          node scripts/update-index.js
+          git add index.json index.pb
+          git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update index with new kototoro-parsers release" && git push)
