@@ -101,5 +101,5 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           npm install protobufjs
           node scripts/update-index.js
-          git add index.json index.pb
+          git add index.json repo.json index.pb
           git diff --quiet && git diff --staged --quiet || (git commit -m "Auto-update index with new kototoro-parsers release" && git push)

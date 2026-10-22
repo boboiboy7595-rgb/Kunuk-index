@@ -4,6 +4,7 @@ const protobuf = require('protobufjs');
 
 const SOURCES_FILE = path.join(__dirname, '..', 'sources.json');
 const INDEX_FILE = path.join(__dirname, '..', 'index.json');
+const REPO_FILE = path.join(__dirname, '..', 'repo.json');
 const PROTO_FILE = path.join(__dirname, '..', 'schema.proto');
 const PB_FILE = path.join(__dirname, '..', 'index.pb');
 
@@ -196,7 +197,8 @@ async function buildIndex() {
   };
 
   fs.writeFileSync(INDEX_FILE, JSON.stringify(indexData, null, 2) + '\n');
-  console.log(`Successfully generated index.json with ${generatedRepositories.length} repositories.`);
+  fs.writeFileSync(REPO_FILE, JSON.stringify(indexData, null, 2) + '\n');
+  console.log(`Successfully generated index.json and repo.json with ${generatedRepositories.length} repositories.`);
 
   await compileProtobuf(indexData);
 }

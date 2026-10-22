@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "last_updated": "2026-10-22T14:30:13.228Z",
+  "repositories": [
+    {
+      "id": "invaliddavid-uma",
+      "name": "UMA Extension Repo",
+      "type": "usagi",
+      "description": "UMA Plugin for the Usagi App or other Kotatsu Forks.",
+      "author": "InvalidDavid",
+      "icon_url": "https://avatars.githubusercontent.com/u/118831950?v=4",
+      "version": "08f814f",
+      "version_code": 100,
+      "jar_url": "https://github.com/InvalidDavid/UMA/releases/download/08f814f/uma.jar",
+      "index_url": "",
+      "sources_count": 1,
+      "size_bytes": 1112812,
+      "min_app_version": "1.0.0",
+      "github": "InvalidDavid/UMA"
+    },
+    {
+      "id": "dragonx943-manga-repo",
+      "name": "Usagi Manga Repo",
+      "type": "usagi",
+      "description": "A plugin that contains some sources for Usagi, compatible with Tsuki.",
+      "author": "dragonx943",
+      "icon_url": "https://avatars.githubusercontent.com/u/131387159?v=4",
+      "version": "97b4718",
+      "version_code": 100,
+      "jar_url": "https://github.com/dragonx943/manga-repo/releases/download/97b4718/vn.jar",
+      "index_url": "",
+      "sources_count": 1,
+      "size_bytes": 290399,
+      "min_app_version": "1.0.0",
+      "github": "dragonx943/manga-repo"
+    },
+    {
+      "id": "keiyoushi-extensions",
+      "name": "Keiyoushi Extensions",
+      "type": "mihon",
+      "description": "Extension repository for Mihon and variants",
+      "author": "keiyoushi",
+      "icon_url": "https://avatars.githubusercontent.com/u/113362897?v=4",
+      "version": "229fddf",
+      "version_code": 100,
+      "jar_url": "",
+      "index_url": "https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json",
+      "sources_count": 1420,
+      "size_bytes": 0,
+      "min_app_version": "1.0.0",
+      "github": "keiyoushi/extensions"
+    },
+    {
+      "id": "skepsun-kototoro-parsers",
+      "name": "Kototoro Parsers (Auto-Build)",
+      "type": "usagi",
+      "description": "Manga parsers library for Kotlin/JVM and Android",
+      "author": "skepsun",
+      "icon_url": "https://avatars.githubusercontent.com/u/27009335?v=4",
+      "version": "1.0.0",
+      "version_code": 100,
+      "jar_url": "https://github.com/boboiboy7595-rgb/Kunuk-index/releases",
+      "index_url": "",
+      "sources_count": 1,
+      "size_bytes": 0,
+      "min_app_version": "1.0.0",
+      "github": "skepsun/kototoro-parsers"
+    }
+  ]
+}
