@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": "2026-10-23T16:43:51.870Z",
+  "last_updated": "2026-10-23T21:10:31.194Z",
   "repositories": [
     {
       "id": "invaliddavid-uma",
@@ -25,12 +25,12 @@
       "description": "A plugin that contains some sources for Usagi, compatible with Tsuki.",
       "author": "dragonx943",
       "icon_url": "https://avatars.githubusercontent.com/u/131387159?v=4",
-      "version": "97b4718",
+      "version": "d605625",
       "version_code": 100,
-      "jar_url": "https://github.com/dragonx943/manga-repo/releases/download/97b4718/vn.jar",
+      "jar_url": "https://github.com/dragonx943/manga-repo/releases/download/d605625/vn.jar",
       "index_url": "",
       "sources_count": 1,
-      "size_bytes": 290399,
+      "size_bytes": 292721,
       "min_app_version": "1.0.0",
       "github": "dragonx943/manga-repo"
     },
