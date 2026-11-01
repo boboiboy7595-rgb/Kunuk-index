@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": "2026-11-01T12:53:50.818Z",
+  "last_updated": "2026-11-01T21:50:15.552Z",
   "repositories": [
     {
       "id": "invaliddavid-uma",
@@ -9,12 +9,12 @@
       "description": "UMA Plugin for the Usagi App or other Kotatsu Forks.",
       "author": "InvalidDavid",
       "icon_url": "https://avatars.githubusercontent.com/u/118831950?v=4",
-      "version": "f607156",
+      "version": "a957b28",
       "version_code": 100,
-      "jar_url": "https://github.com/InvalidDavid/UMA/releases/download/f607156/uma.jar",
+      "jar_url": "https://github.com/InvalidDavid/UMA/releases/download/a957b28/uma.jar",
       "index_url": "",
       "sources_count": 1,
-      "size_bytes": 1237638,
+      "size_bytes": 1233026,
       "min_app_version": "1.0.0",
       "github": "InvalidDavid/UMA"
     },
@@ -41,11 +41,11 @@
       "description": "Extension repository for Mihon and variants",
       "author": "keiyoushi",
       "icon_url": "https://avatars.githubusercontent.com/u/113362897?v=4",
-      "version": "dd8098d",
+      "version": "ae7c1e0",
       "version_code": 100,
       "jar_url": "",
       "index_url": "https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json",
-      "sources_count": 1446,
+      "sources_count": 1449,
       "size_bytes": 0,
       "min_app_version": "1.0.0",
       "github": "keiyoushi/extensions"
