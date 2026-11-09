@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "last_updated": "2026-11-08T21:50:31.270Z",
+  "last_updated": "2026-11-09T05:25:07.381Z",
   "repositories": [
     {
       "id": "invaliddavid-uma",
@@ -41,11 +41,11 @@
       "description": "Extension repository for Mihon and variants",
       "author": "keiyoushi",
       "icon_url": "https://avatars.githubusercontent.com/u/113362897?v=4",
-      "version": "712aa6f",
+      "version": "3a7c095",
       "version_code": 100,
       "jar_url": "",
       "index_url": "https://raw.githubusercontent.com/keiyoushi/extensions/repo/index.min.json",
-      "sources_count": 1556,
+      "sources_count": 1554,
       "size_bytes": 0,
       "min_app_version": "1.0.0",
       "github": "keiyoushi/extensions"
