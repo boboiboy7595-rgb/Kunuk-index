@@ -1,5 +1,5 @@
 Œ
-invaliddavid-umaUMA Extension Repousagi"4UMA Plugin for the Usagi App or other Kotatsu Forks.*InvalidDavid:a957b28rInvalidDavid/UMA£
+invaliddavid-umaUMA Extension Repousagi"4UMA Plugin for the Usagi App or other Kotatsu Forks.*InvalidDavid:2462a1frInvalidDavid/UMA£
 dragonx943-manga-repoUsagi Manga Repousagi"EA plugin that contains some sources for Usagi, compatible with Tsuki.*
 dragonx943:e5dfe0brdragonx943/manga-repoŠ
 keiyoushi-extensionsKeiyoushi Extensionsmihon"+Extension repository for Mihon and variants*	keiyoushi:fe7b030rkeiyoushi/extensionsœ
